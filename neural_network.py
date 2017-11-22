@@ -7,7 +7,6 @@ class NeuralNetwork():
     def __init__(self):
         
         self.layers = []
-        self.training_batches = []
         self.lowest_loss = float('Inf')
         return
     
@@ -23,8 +22,13 @@ class NeuralNetwork():
         return
     
     def summary(self):
+        print ("---------------------------------------")        
+        print ("Neural network layers (inputs, outputs)")
+        print ("---------------------------------------")        
         for layer in self.layers:
             layer.summary()
+        print ("---------------------------------------")
+        return
         
     def update_outputs(self, inputs):
 
@@ -144,13 +148,11 @@ class NeuralNetwork():
                 validation_losses.append(validation_loss)
             
             if (verbose != 0):
-                if validate:
-                    status = "Epoch " + str(e + 1) + " of " + str (epochs) + " - Loss:" + str(batch_loss) \
-                        + " - Validation Loss:" + str(validation_loss) + " - Batch size : " + str(batch_size)
-                else:
-                    status = "Epoch " + str(e + 1) + " of " + str (epochs) + " - Loss:" + str(batch_loss) \
-                        + " - Batch size : " + str(batch_size)
-                print (status, end="\r")
+                status = {"epoch" : e + 1, 
+                          "epochs": epochs, 
+                          "loss"  : batch_loss,
+                          "vloss" : validation_loss if validate else "N/A"}
+                print ("Epoch {epoch:d} of {epochs:d} | Loss: {loss:f} | Validation Loss: {vloss:f}".format(**status), end="\r")
                 sleep(0.0005)
                 
         return losses, validation_losses
