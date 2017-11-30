@@ -19,11 +19,12 @@ def create_np_data_sets():
     
     test_inputs        = pddf_to_nparr(df_test[0])
     test_targets       = pddf_to_nparr(df_test[1])
+    dates              = pddf_to_nparr(df_test[2])
     mean, std          = data.z_factors['cnt']
     
     np_training_set    = (inputs, targets)
     np_validation_set  = (validation_inputs, validation_targets)
-    np_test_set        = (test_inputs, squeeze(test_targets), mean, std)
+    np_test_set        = (test_inputs, squeeze(test_targets), squeeze(dates), mean, std)
 
     return np_training_set, np_validation_set, np_test_set
 
