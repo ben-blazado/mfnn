@@ -30,7 +30,7 @@ class BikeShareData:
         self.continuous_cols  = ['casual', 'registered', 'cnt', 'temp', 'hum', 'windspeed']
         self.z_factors        = {}
         self.target_cols      = ['cnt']
-        self.date_col         = ['dteday']
+        self.datetime_cols    = ['dteday', 'hr']
 
         self.ax_column        = 1 #--- constant for axis number of columns in dataframe
         
@@ -50,6 +50,9 @@ class BikeShareData:
     
     def preprocess(self):
         
+        #--- save the date and hour columns for referencing in testing before preprocessing data
+        self.df_bike_share_datetimes = self.df_bike_share_data[self.datetime_cols]
+
         self.create_ohe_cols()
         self.rescale_cont_cols()
         self.drop_unused_cols()
@@ -83,9 +86,6 @@ class BikeShareData:
         #--- TODO: explain design decision (i.e. which fields and why)
         #--- TODO: change axis to AX_COLUMNS
 
-        self.df_bike_share_dates = self.df_bike_share_data[self.date_col]
-        #--- save the dates column for use in testing before dropping
-        
         self.df_bike_share_data = self.df_bike_share_data.drop(self.unused_cols, axis=self.ax_column)
 
         return
@@ -140,14 +140,14 @@ class BikeShareData:
         df_testing_data  = self.df_bike_share_data[-self.days_for_test_data * 24:]
         
         #--- reference the dates of the test data
-        df_test_dates = self.df_bike_share_dates[-self.days_for_test_data * 24:]
+        df_test_datetimes = self.df_bike_share_datetimes[-self.days_for_test_data * 24:]
         
         #--- split testing data into features and targets
         df_test_features = df_testing_data.drop(self.target_cols, axis=self.ax_column)
         df_test_targets  = df_testing_data[self.target_cols]
         
         #--- create the test set as tuples of the test features and test targets
-        testing_set = (df_test_features, df_test_targets, df_test_dates)
+        testing_set = (df_test_features, df_test_targets, df_test_datetimes)
         
         return testing_set
     
