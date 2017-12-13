@@ -2,7 +2,9 @@ from bike_share_data import BikeShareData
 from neural_network  import NeuralNetwork
 from layer           import Dense, Sigmoid, Activation
 from mfnn_utils      import pddf_to_nparr
-from numpy           import squeeze
+from numpy           import squeeze, array
+from datetime        import datetime
+
 
 def create_np_data_sets():
     
@@ -19,7 +21,8 @@ def create_np_data_sets():
     
     test_inputs        = pddf_to_nparr(df_test[0])
     test_targets       = pddf_to_nparr(df_test[1])
-    datetimes          = pddf_to_nparr(df_test[2])
+    datetimes          = array([datetime.strptime(date_str + ' ' + str(hr), "%Y-%m-%d %H") 
+                                   for [date_str, hr] in squeeze (pddf_to_nparr(df_test[2]))])
     mean, std          = data.z_factors['cnt']
     
     np_training_set    = (inputs, targets)
