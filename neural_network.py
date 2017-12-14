@@ -99,6 +99,12 @@ class NeuralNetwork():
         batch_predictions = self.predict_on_batch(batch_features)
         sq_errors = [(labels - predictions) ** 2 for labels, predictions in zip(batch_labels, batch_predictions)]
         loss = np.mean(sq_errors)
+        
+        '''
+        TODO: caluclate accuracy
+        accuracies = [1.0 - (labels - predictions) / labels for labels, predictions in zip(batch_labels, batch_predictions)]
+        accuracy = np.mean(np.absolute(accuracies))
+        '''
         return loss
     
     

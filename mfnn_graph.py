@@ -13,7 +13,7 @@ def plot_losses (training_losses, validation_losses):
     plt.plot(validation_losses, label='Validation loss')
     plt.legend()
     plt.ylim(ymax=0.5)        
-    plt.title("Loss over Epoch")
+    plt.title("Loss(Mean Squared Error) per Epoch")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     return
@@ -54,7 +54,7 @@ def plot_predictions_24hr (predicted_values, target_values, datetimes, str_selec
     ax.xaxis.set_major_locator(mdates.HourLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%H"))
     
-    #--- display rest of plot data
+    #--- display rest of graph labels
     plt.legend()
     plt.title("Predicted vs. Actual Bike Usage (" + selected_date.strftime("%B %d, %Y") + ")")
     plt.xlabel("Hour")
@@ -78,7 +78,7 @@ def plot_predictions(predicted_values, target_values, datetimes):
     ax.xaxis.set_major_locator(date_locator)
     ax.xaxis.set_major_formatter(mdates.AutoDateFormatter(date_locator))
     
-    #--- display rest of plot data
+    #--- display rest of graph labels
     plt.legend()
     plt.title("Predicted vs. Actual Bike Usage")
     plt.xlabel("Date")
