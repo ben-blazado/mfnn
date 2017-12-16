@@ -1,6 +1,6 @@
 # mfnn
 
-mfnn is a neural network that trains on past bike usage, weather, and holiday data, to create estimates of future bike usage. The data is from the UCI Machine Learning Respository Bike Sharing Dataset. This is a refactored version of the project ["My First Neural Network"](https://github.com/udacity/deep-learning/tree/master/first-neural-network) of the Udacity Machine Learning Foundations Nanodegree Program.
+mfnn is a neural network that predicts hourly bike rentals from [Capital Bikeshare](http://www.capitalbikeshare.com). It trains on data from the [UCI Machine Learning Respository Bike Sharing Dataset](http://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset). This is a refactored version of the project ["My First Neural Network"](http://github.com/udacity/deep-learning/tree/master/first-neural-network) I submitted as required by the Udacity Machine Learning Foundations Nanodegree Program.
 
 ![Alt text](predvsact30days.png?raw=true)
 
