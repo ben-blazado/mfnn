@@ -25,6 +25,7 @@ def plot_accuracies (accuracies):
     plt.figure(figsize=figsize)
     plt.plot(accuracies, label='Accuracy')
     plt.legend()
+    plt.ylim(ymax=1.0)        
     plt.title("Neural Network Accuracy")
     plt.xlabel("Iteration")
     plt.ylabel("Accuracy")

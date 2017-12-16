@@ -99,10 +99,11 @@ class NeuralNetwork():
         
         batch_predictions = self.predict_on_batch(batch_features)
         
-        errors = np.array([labels - predictions for labels, predictions in zip(batch_labels, batch_predictions)])
-        loss = np.mean(errors ** 2)
+        batch_deltas = np.array([labels - predictions for labels, predictions in zip(batch_labels, batch_predictions)])
+        loss = np.mean(batch_deltas ** 2)
         
-        accuracies = np.array([(labels - e) / labels for e, labels in zip(errors, batch_labels)])
+        errors = [np.absolute(deltas / labels) for labels, deltas in zip(batch_labels, batch_deltas)]
+        accuracies = np.array([1.0 - np.minimum(error, 1.0) for error in errors])
         accuracy = np.mean(accuracies)
 
         return loss, accuracy
