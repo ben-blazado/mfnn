@@ -96,16 +96,16 @@ class NeuralNetwork():
     
     
     def test_on_batch(self, batch_features, batch_labels):
-        batch_predictions = self.predict_on_batch(batch_features)
-        sq_errors = [(labels - predictions) ** 2 for labels, predictions in zip(batch_labels, batch_predictions)]
-        loss = np.mean(sq_errors)
         
-        '''
-        TODO: caluclate accuracy
-        accuracies = [1.0 - (labels - predictions) / labels for labels, predictions in zip(batch_labels, batch_predictions)]
-        accuracy = np.mean(np.absolute(accuracies))
-        '''
-        return loss
+        batch_predictions = self.predict_on_batch(batch_features)
+        
+        errors = np.array([labels - predictions for labels, predictions in zip(batch_labels, batch_predictions)])
+        loss = np.mean(errors ** 2)
+        
+        accuracies = np.array([(labels - e) / labels for e, labels in zip(errors, batch_labels)])
+        accuracy = np.mean(accuracies)
+
+        return loss, accuracy
     
     
     def train_on_batch(self, batch_features, batch_labels, learning_rate):
@@ -120,7 +120,7 @@ class NeuralNetwork():
             
         #--- all rows processed; update weights and evaluate model
         self.update_weights(learning_rate, batch_size=len(batch_features))
-        batch_loss = self.test_on_batch(batch_features, batch_labels)
+        batch_loss, _ = self.test_on_batch(batch_features, batch_labels)
         
         return batch_loss
         
@@ -139,6 +139,7 @@ class NeuralNetwork():
             #--- unpack validation data
             validation_inputs, validation_targets = validation_data
             validation_losses = []
+            accuracies = []
             
         for e in range(epochs):
             #--- process epoch e
@@ -150,15 +151,18 @@ class NeuralNetwork():
             losses.append(batch_loss)
             
             if validate:
-                validation_loss = self.test_on_batch(validation_inputs, validation_targets)
+                validation_loss, accuracy = self.test_on_batch(validation_inputs, validation_targets)
                 validation_losses.append(validation_loss)
+                accuracies.append(accuracy)
             
             if (verbose != 0):
                 status = {"epoch" : e + 1, 
                           "epochs": epochs, 
                           "loss"  : batch_loss,
-                          "vloss" : validation_loss if validate else "N/A"}
-                print ("Epoch {epoch:d} of {epochs:d} | Loss: {loss:f} | Validation Loss: {vloss:f}".format(**status), end="\r")
-                sleep(0.0005)
+                          "vloss" : validation_loss if validate else "N/A",
+                          "acc"   : accuracy if validate else "N/A"}
+                status_template = "Epoch {epoch:d} of {epochs:d} | Loss: {loss:f} | Validation Loss: {vloss:f} | Accuracy: {acc:f}"
+                print (status_template.format(**status), end="\r")
+                #--- sleep(0.0005)
                 
-        return losses, validation_losses
+        return losses, validation_losses, accuracies

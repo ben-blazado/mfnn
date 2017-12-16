@@ -5,7 +5,6 @@ from mfnn_utils import retrieve, unzip
 
 class BikeShareData:
     
-    
     def __init__(self,
                  url     = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00275/Bike-Sharing-Dataset.zip',
                  data_dir='data',
@@ -96,6 +95,7 @@ class BikeShareData:
         #--- do not call more than once
         #--- rescale continuous values to a z-score: z[i] = (x[i] - x_mean) / x_std_dev
         #--- use the z_factors dictionary to store mean and std_dev for each col
+        #--- TODO: explain why we use z-scoring
         
         for col in self.continuous_cols:
             mean    = self.df_bike_share_data[col].mean()

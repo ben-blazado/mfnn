@@ -9,14 +9,29 @@ figsize = (10,6)
 def plot_losses (training_losses, validation_losses):
     #--- display the losses on a graph
     plt.figure(figsize=figsize)
-    plt.plot(training_losses, label='Training loss')
-    plt.plot(validation_losses, label='Validation loss')
+    plt.plot(training_losses, label='Training Error')
+    plt.plot(validation_losses, label='Validation Error')
     plt.legend()
     plt.ylim(ymax=0.5)        
-    plt.title("Loss(Mean Squared Error) per Epoch")
-    plt.xlabel("Epoch")
-    plt.ylabel("Loss")
+    plt.title("Neural Network Training Error")
+    plt.xlabel("Iteration")
+    plt.ylabel("Mean Squared Error")
+    plt.grid(True, axis='y')
+    
     return
+
+def plot_accuracies (accuracies):
+    #--- display the losses on a graph
+    plt.figure(figsize=figsize)
+    plt.plot(accuracies, label='Accuracy')
+    plt.legend()
+    plt.title("Neural Network Accuracy")
+    plt.xlabel("Iteration")
+    plt.ylabel("Accuracy")
+    plt.grid(True, axis='y')
+    
+    return
+
 
 def plot_predictions_24hr (predicted_values, target_values, datetimes, str_selected_date):
 
@@ -45,7 +60,7 @@ def plot_predictions_24hr (predicted_values, target_values, datetimes, str_selec
 
     #--- draw side-by-side bars for predicted and target values
     _, ax  = plt.subplots(figsize=figsize)
-    ax.bar(x_values - bar_width / num_bars, selected_predicted_values, width=bar_width, label='Predicted')
+    ax.bar(x_values - bar_width / num_bars, selected_predicted_values, width=bar_width, label='Predicted Bike Rentals')
     ax.bar(x_values + bar_width / num_bars, selected_target_values,    width=bar_width, label='Actual')
 
     #--- format the x axis ticks
@@ -56,9 +71,9 @@ def plot_predictions_24hr (predicted_values, target_values, datetimes, str_selec
     
     #--- display rest of graph labels
     plt.legend()
-    plt.title("Predicted vs. Actual Bike Usage (" + selected_date.strftime("%B %d, %Y") + ")")
+    plt.title("Neural Network Predictions (" + selected_date.strftime("%B %d, %Y") + ")")
     plt.xlabel("Hour")
-    plt.ylabel("Bike Usage")
+    plt.ylabel("Bike Rentals")
     plt.grid(True, axis='y')
     
     return
@@ -69,7 +84,7 @@ def plot_predictions(predicted_values, target_values, datetimes):
     #--- draw side-by-side bars for predicted and target values
     _, ax  = plt.subplots(figsize=figsize)
     ax.plot(datetimes, target_values, label='Actual')
-    ax.plot(datetimes, predicted_values, label='Predicted')
+    ax.plot(datetimes, predicted_values, label='Predicted Bike Rentals')
     
     #--- format the x axis ticks
     ax.set_xlim(datetimes[0], datetimes[-1])
@@ -80,9 +95,9 @@ def plot_predictions(predicted_values, target_values, datetimes):
     
     #--- display rest of graph labels
     plt.legend()
-    plt.title("Predicted vs. Actual Bike Usage")
+    plt.title("Neural Network Predictions (All Test Data)")
     plt.xlabel("Date")
-    plt.ylabel("Bike Usage")
+    plt.ylabel("Bike Rentals")
     plt.grid(True, axis='y')
     
     return
