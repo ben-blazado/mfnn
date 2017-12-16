@@ -12,7 +12,6 @@ def plot_losses (training_losses, validation_losses):
     plt.plot(training_losses, label='Training Error')
     plt.plot(validation_losses, label='Validation Error')
     plt.legend()
-    plt.ylim(ymax=0.5)        
     plt.title("Neural Network Training Error")
     plt.xlabel("Iteration")
     plt.ylabel("Mean Squared Error")
