@@ -21,7 +21,7 @@ def plot_losses (training_losses, validation_losses):
     return
 
 def plot_accuracies (accuracies):
-    #--- display the losses on a graph
+    #--- display the accuracies on a graph
     plt.figure(figsize=figsize)
     plt.plot(accuracies, label='Accuracy')
     plt.legend()
