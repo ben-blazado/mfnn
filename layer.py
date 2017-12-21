@@ -160,25 +160,20 @@ class LRelu(Activation):
     def __init__(self):
         Activation.__init__(self)
         self.name = "Leaky ReLU"
-        self.threshold = 0.01
-        self.lrelu_val = None
-        self.lrelu_grad_val = None
+        self.threshold = 0.1
         return
     
     def f(self, x):
         #--- x.shape (1, num_outputs)
-        if self.lrelu_val is None:
-            self.lrelu_val = np.empty_like(x)
-        self.lrelu_val[0] = [max (a, self.threshold) for a in x[0]]
-        return self.lrelu_val
+        f = np.array([[max (m, self.threshold) for m in x[0]]])
+        assert (len(f.shape) == 2)
+        return f
     
     def dfdx(self):
         #--- self.outputs is a vector
         #--- self.outputs.shape is (1, num_ouputs)
-        if self.lrelu_grad_val is None:
-            self.lrelu_grad_val = np.empty_like(self.outputs)
-        self.lrelu_grad_val[0] = [1 if a > self.threshold else self.threshold for a in self.outputs[0]]
-        return self.lrelu_grad_val
-            
+        dfdx = np.array([[1.0 if o > self.threshold else 0.01 for o in self.outputs[0]]])
+        assert (len(dfdx.shape) == 2)
+        return dfdx
     
             

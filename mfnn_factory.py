@@ -1,6 +1,6 @@
 from bike_share_data import BikeShareData
 from neural_network  import NeuralNetwork
-from layer           import Dense, Sigmoid, Activation
+from layer           import Dense, Sigmoid, Activation, LRelu
 from mfnn_utils      import pddf_to_nparr
 from numpy           import squeeze, array
 from datetime        import datetime
@@ -36,8 +36,15 @@ def create_mfnn(input_size):
     mfnn = NeuralNetwork()
 
     mfnn.add(Dense(32, input_size=input_size))
-    mfnn.add(Sigmoid())
-
+    #mfnn.add(Sigmoid())
+    mfnn.add(LRelu())
+    
+    mfnn.add(Dense(32))
+    mfnn.add(LRelu())
+    
+    mfnn.add(Dense(32))
+    mfnn.add(LRelu())
+    
     mfnn.add(Dense(1))
     mfnn.add(Activation())
 

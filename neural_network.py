@@ -164,6 +164,6 @@ class NeuralNetwork():
                           "acc"   : accuracy if validate else "N/A"}
                 status_template = "Epoch {epoch:d} of {epochs:d} | Loss: {loss:f} | Validation Loss: {vloss:f} | Accuracy: {acc:f}"
                 print (status_template.format(**status), end="\r")
-                #--- sleep(0.0005)
+                sleep(0.0005)
                 
         return losses, validation_losses, accuracies
