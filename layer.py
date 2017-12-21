@@ -153,27 +153,52 @@ class Sigmoid(Activation):
         return self.outputs * (1 - self.outputs)
     
 
-#--- TODO: fix leaky rectified linear unit activation
 class LRelu(Activation):
-    #--- DON't USE YET
     
     def __init__(self):
         Activation.__init__(self)
         self.name = "Leaky ReLU"
-        self.threshold = 0.1
+        self.threshold = 0.0
         return
     
     def f(self, x):
         #--- x.shape (1, num_outputs)
-        f = np.array([[max (m, self.threshold) for m in x[0]]])
+        
+        f = np.array([[max (i, self.threshold) for i in x[0]]])
         assert (len(f.shape) == 2)
         return f
     
     def dfdx(self):
         #--- self.outputs is a vector
         #--- self.outputs.shape is (1, num_ouputs)
-        dfdx = np.array([[1.0 if o > self.threshold else 0.01 for o in self.outputs[0]]])
+        dfdx = np.array([[1.0 if output > self.threshold else 0.01 for output in self.outputs[0]]])
         assert (len(dfdx.shape) == 2)
         return dfdx
     
-            
+
+#--- fix BatchNorm
+class BatchNorm(Activation):
+    
+    def __init__(self):
+        Activation.__init__(self)
+        self.name = "Batch Normalization"
+        return
+    
+    def f(self, x):
+        #--- x.shape (1, num_outputs)
+        
+        self.x_min = np.amin(x[0])
+        self.x_max = np.amax(x[0])
+        x_norm = (x - self.x_min) / (self.x_max - self.x_min)
+        assert (len(x_norm.shape) == 2 and x_norm.shape[0] == 1)
+        assert (x_norm[0][0] >= 0 and x_norm[0][0] <= 1)
+        return x_norm
+    
+    def dfdx(self):
+        #--- self.outputs is a vector
+        #--- self.outputs.shape is (1, num_ouputs)
+        dfdx = np.full_like(self.outputs, 1.0 / (self.x_max - self.x_min))
+        assert (dfdx.shape == self.outputs.shape)
+        return dfdx
+    
+   
